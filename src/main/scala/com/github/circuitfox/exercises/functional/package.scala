@@ -24,10 +24,4 @@ package com.github.circuitfox.exercises
 
 package object functional {
   import language.higherKinds
-
-  type LeftProjection[+A, +B] = Either.LeftProjection
-  val LeftProjection = Either.LeftProjection
-
-  type RightProjection[+A, +B] = Either.RightProjection
-  val RightProjection = Either.RightProjection
 }
