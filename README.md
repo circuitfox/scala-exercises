@@ -9,6 +9,6 @@ All of my solutions will be in Scala.
  * [20 Intermediate Scala Exercises][2]
  * [Monad Exercises in Scala][3]
 
-[1]: tmorris.net/posts/scala-exercises-for-beginners/
-[2]: tmorris.net/posts/20-intermediate-scala-exercises/
-[3]: tmorris.net/posts/monad-exercises-in-scala-and-haskell/
+[1]: http://tmorris.net/posts/scala-exercises-for-beginners/
+[2]: http://tmorris.net/posts/20-intermediate-scala-exercises/
+[3]: http://tmorris.net/posts/monad-exercises-in-scala-and-haskell/
