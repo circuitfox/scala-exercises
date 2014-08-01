@@ -62,9 +62,23 @@ object ListUtils {
       if (xs.isEmpty) ys
       else {
         val (p, n) = xs.span(_ == xs.head)
-        if (n == Nil) List(p)
+        if (n == Nil) p :: ys
         else pack1(n, p :: ys)
       }
-    pack1(ls, List(List()))
+    pack1(ls, List.empty[List[A]]).reverse
+  }
+
+  // P10 - Run-length encoding of a list
+  def encode[A](ls: List[A]): List[(Int, A)] = pack(ls) map { lls =>
+    (lls.length, lls.head)
+  }
+
+  // P11 - Run-length encoding of a list; single-element tuples are compressed
+  def encodeCompress[A](ls: List[A]): List[Either[A, (Int, A)]] =
+    encode(ls) map { t => if (t._1 == 1) Left(t._2) else Right(t)}
+
+  // P12 - Decode a run-length encoded list
+  def decode[A](ls: List[(Int, A)]): List[A] = ls flatMap { case (l, e) =>
+    List.fill(l)(e)
   }
 }
