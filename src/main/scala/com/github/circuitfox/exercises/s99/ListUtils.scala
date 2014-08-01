@@ -81,4 +81,51 @@ object ListUtils {
   def decode[A](ls: List[(Int, A)]): List[A] = ls flatMap { case (l, e) =>
     List.fill(l)(e)
   }
+
+  // P13 - Direct run-length encoding of a list
+  def encodeDirect[A](ls: List[A]): List[(Int, A)] = {
+    @tailrec
+    def encodeD(xs: List[A], ys: List[(Int, A)]): List[(Int, A)] =
+      if (xs.isEmpty) ys
+      else {
+        val (p, n) = xs.span(_ == xs.head)
+        if (n == Nil) (p.length, p.head) :: ys
+        else encodeD(n, (p.length, p.head) :: ys)
+      }
+    encodeD(ls, List.empty[(Int, A)]).reverse
+  }
+
+  // P14 - Duplicate the elements of a list
+  def duplicate[A](ls: List[A]): List[A] = ls flatMap { e => List(e, e) }
+
+  // P15 - Duplicate the elements of a list n times
+  def duplicateN[A](n: Int, ls: List[A]): List[A] = ls flatMap { e =>
+    List.fill(n)(e)
+  }
+
+  // P16 - Drop every nth element from a list
+  def drop[A](n: Int, ls: List[A]): List[A] = ls.zipWithIndex.filter {
+    case (e, i) => (i+1) % n != 0
+  }.map(_._1)
+
+  // P17 - Split a list at the given index
+  def split[A](n: Int, ls: List[A]): (List[A], List[A]) = ls splitAt n
+
+  // P18 - Extract a slice from the given list
+  def slice[A](from: Int, to: Int, ls: List[A]): List[A] = ls.slice(from, to)
+
+  // P19 - Rotate a list n places to the left
+  @tailrec
+  def rotate[A](n: Int, ls: List[A]): List[A] = {
+    val ln = if (ls.isEmpty) 0 else n % ls.length
+    if (n < 0 ) rotate(ln + ls.length, ls)
+    else ls.drop(ln) ::: ls.take(ln)
+  }
+
+  // P20 - Remove the kth element of a list
+  def removeAt[A](n: Int, ls: List[A]): (List[A], A) = ls.splitAt(n) match {
+    case (Nil, _) if n < 0 => throw new NoSuchElementException
+    case (h, e :: t) => (h ::: t, e)
+    case (h, Nil) => throw new NoSuchElementException
+  }
 }
