@@ -128,4 +128,33 @@ object ListUtils {
     case (h, e :: t) => (h ::: t, e)
     case (h, Nil) => throw new NoSuchElementException
   }
+
+  // P21 - Insert an element at a given position into a list
+  def insertAt[A](a: A, n: Int, ls: List[A]): List[A] = ls.splitAt(n) match {
+    case (h, t) => h ::: a :: t
+  }
+
+  // P22 - Create a list containing all integers in a given range
+  def range(from: Int, to: Int): List[Int] = List.range(from, to+1)
+
+  // P23 - Extract a given number of randomly selected elements from a list
+  def randomSelect[A](n: Int, ls: List[A]): List[A] = {
+    @tailrec
+    def randomSelect1(n: Int, ls: List[A], rs: List[A],
+                      r: util.Random): List[A] = {
+      if (n <= 0) Nil
+      else {
+        val (rest, e) = removeAt(r.nextInt(n), ls)
+        randomSelect1(n-1, rest, e :: rs, r)
+      }
+    }
+    randomSelect1(n, ls, List.empty[A], new util.Random)
+  }
+
+  // P24 - Draw n different random numbers from the set 1..m
+  def lotto(n: Int, m: Int): List[Int] = randomSelect(n, List.range(1, m+1))
+
+  // P25 - Generate a random permutation of a list
+  // This is O(n^2)
+  def randomPermute[A](ls: List[A]): List[A] = randomSelect(ls.length, ls)
 }
